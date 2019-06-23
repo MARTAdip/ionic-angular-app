@@ -23,6 +23,7 @@ export class RecipeDetailPage implements OnInit {
     this.activatedRoute.paramMap.subscribe(paramMap => {
       if (!paramMap.has('recipeId')) {
         // redirect
+        this.router.navigate(['/recepies']);
         return;
       }
       const recipeId = paramMap.get('recipeId');
@@ -34,7 +35,7 @@ export class RecipeDetailPage implements OnInit {
     this.alertCtrl.create({
       header: 'are you sure?',
       message: 'Do you really want to delete the recipe?',
-    buttons: [{
+      buttons: [{
       text: 'Cancel',
       role: 'cancel'
     },
