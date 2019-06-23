@@ -38,4 +38,8 @@ export class RecipiesService {
       })
     };
   }
+
+  deleteRecipe(recipeId: string) {
+    this.recipes = this.recipes.filter(recipe => recipe.id !== recipeId);
+  }
 }

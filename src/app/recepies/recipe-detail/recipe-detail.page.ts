@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { RecipiesService } from '../recipies.service';
 import { Recipe } from '../recipe.model';
 
@@ -11,7 +12,12 @@ import { Recipe } from '../recipe.model';
 export class RecipeDetailPage implements OnInit {
   loadedRecipe: Recipe;
 
-  constructor(private activatedRoute: ActivatedRoute, private recipesService: RecipiesService) { }
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private recipesService: RecipiesService,
+    private router: Router,
+    private alertCtrl: AlertController
+  ) { }
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(paramMap => {
@@ -24,4 +30,22 @@ export class RecipeDetailPage implements OnInit {
     });
   }
 
+  onDeleteRecipe() {
+    this.alertCtrl.create({
+      header: 'are you sure?',
+      message: 'Do you really want to delete the recipe?',
+    buttons: [{
+      text: 'Cancel',
+      role: 'cancel'
+    },
+    {
+      text: 'Delete',
+      handler: () => {
+        this.recipesService.deleteRecipe(this.loadedRecipe.id);
+        this.router.navigate(['/recepies']);
+      }
+    }
+  ]
+  }).then(alertEl => alertEl.present());
+  }
 }
